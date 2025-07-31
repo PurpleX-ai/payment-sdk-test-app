@@ -6,7 +6,9 @@ import PurpleX from "@purplex/payment-sdk";
 const App = () => {
   const [apiKey, setApiKey] = useState("");
   const [merchantId, setMerchantId] = useState("");
-  const [environment, setEnvironment] = useState("dev");
+  const [environment, setEnvironment] = useState<"dev" | "prod" | undefined>(
+    "dev"
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,7 +77,9 @@ const App = () => {
           </label>
           <select
             value={environment}
-            onChange={(e) => setEnvironment(e.target.value)}
+            onChange={(e) =>
+              setEnvironment(e.target.value as "dev" | "prod" | undefined)
+            }
             className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           >
             <option value="dev">Dev</option>
