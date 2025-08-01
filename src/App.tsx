@@ -2,10 +2,12 @@ import "./App.css";
 import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import PurpleX from "@purplex/payment-sdk";
+import * as uuid from "uuid";
 
 const App = () => {
   const [apiKey, setApiKey] = useState("");
   const [merchantId, setMerchantId] = useState("");
+  const [amount, setAmount] = useState(0);
   const [environment, setEnvironment] = useState<"dev" | "prod" | undefined>(
     "dev"
   );
@@ -26,7 +28,7 @@ const App = () => {
       console.log("Generating QR Code...");
 
       try {
-        const qr = await sdk?.generateQRCode();
+        const qr = await sdk?.generateQRCode({ amount, currency: "INR", orderId: uuid.v4() });
         console.log("Generated QR Code:", qr);
         alert("QR Code generated successfully! Check console for details.");
         setShowQR(qr);
@@ -43,6 +45,7 @@ const App = () => {
   const resetData = () => {
     setApiKey("");
     setMerchantId("");
+    setAmount(0);
     setEnvironment("dev");
     setShowQR("");
   };
@@ -107,7 +110,7 @@ const App = () => {
               placeholder="Enter Merchant ID"
             />
           </div>
-          <div className="mb-8">
+          <div className="mb-6">
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Environment
             </label>
@@ -121,6 +124,19 @@ const App = () => {
               <option value="dev">Dev</option>
               <option value="prod">Prod</option>
             </select>
+          </div>
+          <div className="mb-6">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 mr-6">
+              Amount
+            </label>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              // className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="Enter Amount"
+            />
           </div>
           <button
             type="submit"
