@@ -34,8 +34,9 @@ const App = () => {
         console.error("Error generating QR Code:", error);
         alert("Failed to generate QR Code. Check console for details.");
       }
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Error initializing PurpleX SDK:", err);
+      alert((err as Error)?.message || err);
     }
   };
 
