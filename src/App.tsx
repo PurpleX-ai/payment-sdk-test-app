@@ -1,6 +1,5 @@
 import "./App.css";
 import { useState } from "react";
-import { QRCodeSVG } from "qrcode.react";
 import PurpleX from "@purplex/payment-sdk";
 import * as uuid from "uuid";
 
@@ -73,7 +72,10 @@ const App = () => {
           </h2>
 
           {/* QR Code */}
-          <QRCodeSVG value={showQR} size={320} />
+          <div className="flex items-center justify-center mb-4">
+            <img src={showQR} alt="Payment QR Code" className="w-128 h-128" />
+          </div>
+
         </div>
 
       ) :
